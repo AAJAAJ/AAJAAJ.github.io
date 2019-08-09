@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>game</title>
+		<script src="js/jquery-3.1.1.js"></script>
+		<style>
+			/* 外墙横线 */
+			.div1 {
+				width: 1800px;
+				height: 50px;
+				background: blue;
+				position: absolute;
+				top: 50px;
+				left: 50px;
+			}
+
+			/* 外墙竖线 */
+			.div2 {
+				width: 50px;
+				height: 750px;
+				background: blue;
+				position: absolute;
+				top: 100px;
+				left: 50px;
+			}
+
+			/* 内墙格式 */
+			.div3 {
+				width: 50px;
+				height: 50px;
+				background: chocolate;
+				position: absolute;
+				top: 100px;
+				left: 100px;
+			}
+
+			/* 王傲的div格式 */
+			.div4 {
+				width: 50px;
+				height: 50px;
+				position: absolute;
+				top: 100px;
+				left: 100px;
+			}
+
+			.div5 {
+				width: 50px;
+				height: 50px;
+				position: absolute;
+				top: 800px;
+				left: 1750px;
+			}
+
+			.div6 {
+				width: 50px;
+				height: 50px;
+				position: absolute;
+			}
+
+			.daojishi {
+				width: 100px;
+				height: 40px;
+				text-align: center;
+				font-size: 35px;
+				border: 5px solid red;
+				position: absolute;
+				top: 0px;
+				left: 1740px;
+			}
+
+			.guanggao {
+				font-size: 30px;
+				background-color: mediumaquamarine;
+				text-align: center;
+				width: 650px;
+				height: 50px;
+				position: absolute;
+				top: 0px;
+				left: 1250px;
+			}
+			.cemian{
+				font-size: 30px;
+				background-color: mediumaquamarine;
+				text-align: center;
+				width: 50px;
+				height: 850px;
+				position: absolute;
+				top: 50px;
+			}
+			.xiamian{
+				font-size: 30px;
+				background-color: mediumaquamarine;
+				text-align: center;
+				width: 1900px;
+				height: 50px;
+				position: absolute;
+				top: 900px;
+				left: 0px;
+			}
+			.biaoti {
+				font-size: 33px;
+				color: cadetblue;
+				background-color: lightpink;
+				text-align: center;
+				width: 630px;
+				height: 50px;
+				position: absolute;
+				top: 0px;
+				left: 620px;
+			}
+			
+			.sxzy{
+				width: 50px;
+				height: 50px;
+			}
+			img {
+				width: 50px;
+				height: 50px;
+			}
+
+			span {
+				font-size: 38px;
+				background-color: pink;
+			}
+			button{
+				position: absolute;
+				z-index: 99;
+				height: 100px;
+				width: 50px;
+				left: 0px;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="biaoti">王傲和马冲的七夕游戏</div>
+		<!-- 按钮 -->
+		<button style="top: 100px;">开始</button>
+		<button style="top: 500px;left:300px;background: none;width: 100px;font-size: 40px;">W</button>
+		<button style="top: 750px;left:300px;background: none;width: 100px;font-size: 40px;">S</button>
+		<button style="top: 625px;left:175px;background: none;width: 100px;font-size: 40px;">A</button>
+		<button style="top: 625px;left:425px;background: none;width: 100px;font-size: 40px;">D</button>
+		<button style="top: 230px;">增加难度</button>
+		<button style="top: 360px;">降低难度</button>
+		<button style="top: 490px;">我马冲不喜欢王傲</button>
+		<button style="top: 620px;">规则</button>
+		<button style="top: 750px;">过不去了点我</button>
+		<button style="top: 500px;left:1475px;background: none;width: 100px;font-size: 40px;">↑</button>
+		<button style="top: 750px;left:1475px;background: none;width: 100px;font-size: 40px;">↓</button>
+		<button style="top: 625px;left:1350px;background: none;width: 100px;font-size: 40px;">←</button>
+		<button style="top: 625px;left:1600px;background: none;width: 100px;font-size: 40px;">→</button>
+		
+		
+		
+		
+		
+		
+		<div class="guanggao" style="left: 0px;">广告位招租</div>
+		<div class="guanggao">广告位招租</div>
+		<div class="cemian" style="left: 0px;"></div>
+		<div class="cemian" style="left: 1850px;">广告位招租</div>
+		<div class="xiamian">广告位招租</div>
+
+		<!-- 外框 -->
+		<div class="div1"><span>我王傲来了</span></div>
+		<div class="div2"><span></span></div>
+		<div class="div1" style="top: 850px;text-align: right"><span>等风等雨等王傲</span></div>
+		<div class="div2" style="left: 1800px;"><span></span></div>
+		<!-- 内墙 -->
+		<!-- 自动加载 -->
+		<!-- 玩家王傲 -->
+		<div class="div4"><img src="img/aoge.jpg"></div>
+		<!-- npc马冲 -->
+		<div class="div5"><img src="img/chongge.jpg"></div>
+
+
+
+		<script>
+			//加载模块
+			//设置要加载的div格式 <div class="div3"></div>
+			var qiang = '<div class="div3"></div>';
+			//用于王傲抢杨航只能抢一次
+			var wayh = 0
+			//用于倒计时
+			var num = 1
+			//用于马冲出动只能点一次
+			var mkaishi = 0
+			//用于马冲动起来
+			var mcd = 0
+			//用于王傲动起来
+			var wad = 0
+			//用于记录王傲赢的次数
+			var wawin = 0
+			//用于记录王傲赢的次数
+			var mcwin = 0
+			//用于开始只能点一次数
+			var kaishi = 0
+			//当点击开始按钮时
+			$('button:eq(0)').click(function() {
+				
+				//让开始只能点一次
+				if (kaishi == 1) {
+					alert("已经开始了别点了");
+					return false;
+				} else {
+					//加载200个div class3 内墙
+					for (var i = 0; i < 200; i++) {
+						$(document.body).append(qiang);
+					}
+					//遍历每个div class3
+					suiji()
+					kaishi = 1
+					wad = 1
+					$('span:eq(0)').prop('style', 'background-color: pink')
+					$('span:eq(0)').html("马冲我来了");
+				}
+			});
+			//控制模块
+			//上下左右按钮
+			//按钮上
+			$('button:eq(1)').click(function() {
+				//上下左右的逻辑调整
+				var m = 50
+				var n = 0
+				//调用封装的上
+				updownleftright(m, n)
+			})
+			//按钮下
+			$('button:eq(2)').click(function() {
+				var m = -50
+				var n = 0
+				updownleftright(m, n)
+			})
+			//按钮左
+			$('button:eq(3)').click(function() {
+				var m = 0
+				var n = 50
+				updownleftright(m, n)
+			})
+			//按钮右
+			$('button:eq(4)').click(function() {
+				var m = 0
+				var n = -50
+				updownleftright(m, n)
+			})
+			//马冲的上下左右按钮
+			//按钮上
+			$('button:eq(10)').click(function() {
+				//上下左右的逻辑调整
+				var m = 50
+				var n = 0
+				//调用封装的上
+				machong(m, n)
+			})
+			//按钮下
+			$('button:eq(11)').click(function() {
+				var m = -50
+				var n = 0
+				machong(m, n)
+			})
+			//按钮左
+			$('button:eq(12)').click(function() {
+				var m = 0
+				var n = 50
+				machong(m, n)
+			})
+			//按钮右
+			$('button:eq(13)').click(function() {
+				var m = 0
+				var n = -50
+				machong(m, n)
+			})
+			//增加难度按钮
+			$('button:eq(5)').click(function() {
+				moshi()
+			})
+			
+			//降低难度
+			$('button:eq(6)').click(function() {
+				for (var i = 0; i < 10; i++) {
+					var index = parseInt(Math.random() * 200);
+					//获取该div3的位置
+					var yhx = $('.div3:eq(' + index + ')').offset().top
+					var yhy = $('.div3:eq(' + index + ')').offset().left
+					//删除这个div3
+					$('.div3:eq(' + index + ')').remove()
+				}
+			})
+			//真.马冲出动按钮
+			/* $('button:eq(7)').click(function() {
+				$('span:eq(2)').html("真.马冲出动")
+				$('span:eq(2)').prop('style', 'background-color: gold')
+				$('img:eq(1)').prop('src','img/zhenmachong.jpg')
+				
+			}) */
+			//过不去了随机按钮
+			$('button:eq(9)').click(function() {
+				//再次随机
+				suiji()
+			})
+
+			//键盘控制,暂时写了asdw--加上下左右
+			$(document).keydown(function(e) {
+				//获取按键的asc码
+				var anxia = event.keyCode
+				switch (anxia) { //判断按键 写法与按钮相同
+					case 87:
+						var m = 50
+						var n = 0
+						updownleftright(m, n)
+						break;
+					case 83:
+						var m = -50
+						var n = 0
+						updownleftright(m, n)
+						break;
+					case 65:
+						var m = 0
+						var n = 50
+						updownleftright(m, n)
+						break;
+					case 68:
+						var m = 0
+						var n = -50
+						updownleftright(m, n)
+						break;
+					case 38:
+						var m = 50
+						var n = 0
+						machong(m, n)
+						break;
+					case 40:
+						var m = -50
+						var n = 0
+						machong(m, n)
+						break;
+					case 37:
+						var m = 0
+						var n = 50
+						machong(m, n)
+						break;
+					case 39:
+						var m = 0
+						var n = -50
+						machong(m, n)
+						break;
+					default:
+						break;
+				}
+			})
+
+
+			//逻辑模块封装方法 
+			//上下左右控制封装(王傲)
+			function updownleftright(m, n) {
+				if (wad == 1) {
+					//如果点击开始
+					//获取王傲的位置
+					var x = $('.div4').offset().top;
+					var y = $('.div4').offset().left;
+					//2.0版本 上下穿墙术
+					//判断上墙
+					if (x == 50 + m) {
+						x = 850
+						$('.div4').prop('style', 'left: ' + x + 'px;top: ' + y + 'px;')
+					} else if (x == 850 + m) {
+						//判断下墙
+						x = 50
+						$('.div4').prop('style', 'left: ' + x + 'px;top: ' + y + 'px;')
+					}
+					//左右禁止穿墙
+					if (y == 50 + n || y == 1800 + n) {
+						$('span:eq(0)').prop('style', 'background-color: red')
+						$('span:eq(0)').html("左右不能穿墙! 狗急跳墙？");
+						return false;
+					}
+					//成功方法
+					//获取马冲位置
+					var mcx = $('.div5').offset().top + m;
+					var mcy = $('.div5').offset().left + n;
+					if (x == mcx && y == mcy) {
+						alert("王傲成功get到了马冲！从此过上了幸福的生活……");
+						//重置位置
+						$('.div4').prop('style', 'left: ' + 100 + 'px;top: ' + 100 + 'px;')
+						$('.div5').prop('style', 'left: ' + 1750 + 'px;top: ' + 800 + 'px;')
+						//随机
+						suiji()
+						wawin += 1
+						num = 60
+						$('span:eq(1)').html("王<br>傲<br>胜<br>场<br>" + wawin);
+						$('span:eq(1)').prop('style', 'background-color: gold')
+						return false;
+					}
+					//彩蛋
+					//杨航位置
+					/* var yhx = $('.div6').offset().top;
+					var yhy = $('.div6').offset().left;
+					if (wayh == 0) {
+						if (x == yhx + m && y == yhy + n) {
+						alert("等等你爱的不是马冲吗？算了抢走吧……");
+						$('.div4').prop('style', 'left: ' + 100 + 'px;top: ' + 100 + 'px;')
+						$('.div5').prop('style', 'left: ' + 1750 + 'px;top: ' + 800 + 'px;')
+						num = 60
+						wayh = 1
+						return false;
+						}
+					}else{
+					$('span:eq(0)').html("别抢杨航了那是马冲的");
+					$('span:eq(0)').prop('style', 'background-color: gold')
+					} */
+					//废弃方法
+					//判断外墙是否重合,重合给警告
+					/* if(x == 50+m || y==50+n){
+						alert("别上墙了！");
+						return false;
+					}
+					if(x == 850+m || y==1800+n){
+						alert("别上墙了！");
+						return false;
+					} */
+					//遍历内墙,判断内墙
+					$('.div3').each(function(index, e) {
+						//获取墙的位置
+						var qiangx = $(this).offset().top + m;
+						var qiangy = $(this).offset().left + n;
+						//判断是否与墙重合,重合了判定游戏失败
+						if (qiangx == x && qiangy == y) {
+							var xm = $(this).offset().top
+							var yn = $(this).offset().left
+							//所撞的墙改为红色
+							$(this).prop('style', 'background-color: red; left: ' + yn + 'px;top: ' + xm + 'px;')
+							gameOver()
+							return false;
+						} else {
+							//一格为50像素所以每次移动一格+50像素
+							//在div进去之前判断是否撞墙的逻辑调整
+							var top = x - m
+							var left = y - n
+							//拼接字符串 设置玩家div的坐标
+							$('.div4').prop('style', 'left: ' + left + 'px;top: ' + top + 'px;')
+						}
+					})
+				} else {
+					$('span:eq(0)').html("点击开始才能动")
+					$('span:eq(0)').prop('style', 'background-color: gray')
+				}
+			}
+			//gameover方法(王傲)
+			function gameOver() {
+				$('span:eq(0)').prop('style', 'background-color: red')
+				$('span:eq(0)').html("王傲撞墙！请重新开始！");
+				//重置位置
+				$('.div4').prop('style', 'left: ' + 100 + 'px;top: ' + 100 + 'px;')
+			}
+			//gameover马冲
+			function gameOverM() {
+				$('span:eq(2)').prop('style', 'background-color: red')
+				$('span:eq(2)').html("马冲撞墙！请重新开始！");
+				//重置位置
+				$('.div5').prop('style', 'left: ' + 1750 + 'px;top: ' + 800 + 'px;')
+			}
+			//增加难度方法
+			function moshi() {
+				for (var i = 0; i < 10; i++) {
+					$(document.body).append(qiang);
+				}
+				//调用随机方法
+				suiji()
+			}
+			//马冲动起来方法  上下左右方法改div4改为div3
+			function machong(m, n) {
+				if (mcd == 1) {
+					//杨航位置
+					var yhx = $('.div6').offset().top;
+					var yhy = $('.div6').offset().left;
+					//获取马冲的位置
+					var x = $('.div5').offset().top;
+					var y = $('.div5').offset().left;
+					//2.0版本 上下穿墙术
+					//判断上墙
+					if (x == 50 + m) {
+						x = 850
+						$('.div5').prop('style', 'left: ' + x + 'px;top: ' + y + 'px;')
+					} else if (x == 850 + m) {
+						//判断下墙
+						x = 50
+						$('.div5').prop('style', 'left: ' + x + 'px;top: ' + y + 'px;')
+					}
+					//左右禁止穿墙
+					if (y == 50 + n || y == 1800 + n) {
+						$('span:eq(2)').prop('style', 'background-color: red')
+						$('span:eq(2)').html("左右不能穿墙! 狗急跳墙？");
+						return false;
+					}
+					//成功方法
+					if (x == yhx + m && y == yhy + n) {
+						alert("马冲成功逃离了王傲！从此和杨航过上了幸福的生活……");
+						//重置位置
+						$('.div4').prop('style', 'left: ' + 100 + 'px;top: ' + 100 + 'px;')
+						$('.div5').prop('style', 'left: ' + 1750 + 'px;top: ' + 800 + 'px;')
+						//随机
+						suiji()
+						mcwin += 1
+						$('span:eq(3)').html("马<br>冲<br>胜<br>场<br>" + mcwin);
+						$('span:eq(3)').prop('style', 'background-color: gold')
+						num = 60
+						return false;
+					}
+					//遍历内墙,判断内墙
+					$('.div3').each(function(index, e) {
+						var qiangx = $(this).offset().top + m;
+						var qiangy = $(this).offset().left + n;
+						//判断是否与墙重合,重合了判定游戏失败
+						if (qiangx == x && qiangy == y) {
+							var xm = $(this).offset().top
+							var yn = $(this).offset().left
+							//所撞的墙改为红色
+							$(this).prop('style', 'background-color: red; left: ' + yn + 'px;top: ' + xm + 'px;')
+							gameOverM()
+							return false;
+						} else {
+							//一格为50像素所以每次移动一格+50像素
+							//在div进去之前判断是否撞墙的逻辑调整
+							var top = x - m
+							var left = y - n
+							//拼接字符串 设置玩家div的坐标
+							$('.div5').prop('style', 'left: ' + left + 'px;top: ' + top + 'px;')
+						}
+					})
+				} else {
+					$('span:eq(2)').html("想逃跑？点我不喜欢王傲")
+					$('span:eq(2)').prop('style', 'background-color: gray')
+				}
+			}
+			//马冲动起来按钮
+			$('button:eq(7)').click(function() {
+				if (mkaishi == 1) {
+					alert("自己跑别点我了");
+					return false;
+				} else {
+					$('span:eq(2)').html("真.马冲出动")
+					$('span:eq(2)').prop('style', 'background-color: gold')
+					$('img:eq(1)').prop('src', 'img/zhenmachong.jpg')
+					$('span:eq(0)').prop('style', 'background-color: gold')
+					$('span:eq(0)').html("马冲别跑");
+					//增加倒计时
+					$(document.body).append('<div class="daojishi">60</div>');
+					//新方法优点  不会被多层div3覆盖
+					//生成一个随机数,随机选定一个div3/内墙
+					var index = parseInt(Math.random() * 200);
+					//获取该div3的位置
+					var yhx = $('.div3:eq(' + index + ')').offset().top
+					var yhy = $('.div3:eq(' + index + ')').offset().left
+					//删除这个div3
+					$('.div3:eq(' + index + ')').remove()
+					//把div6加进去
+					$(document.body).append('<div class="div6"></div>');
+					//把div6放在原来div3的位置
+					$('.div6').prop('style', 'left: ' + yhy + 'px;top: ' + yhx + 'px;')
+					//加入图片
+					$('.div6').append('<img src="img/hangge.jpg">');
+					//倒计时开始60秒
+					num = 59
+					var timer = setInterval(daojishi, 1000)
+					function daojishi() {
+						console.log(num)
+						$('.daojishi').text(num--)
+					}
+					//废弃方法
+					//生成一个随机数,随机出一个div3改成杨航
+					/* var index = parseInt(Math.random() * 200);
+					var yhx = $('.div3:eq('+index+')').offset().top
+					var yhy = $('.div3:eq('+index+')').offset().left
+					$('.div3:eq('+index+')').prop('class', 'div6')
+					$('.div6').append('<img src="img/hangge.jpg">'); */
+					mcd = 1
+					mkaishi = 1
+				}
+			})
+			//倒计时方法
+
+			var shijiandao = setInterval(timep, 1000)
+			console.log(num)
+
+			function timep() {
+				if (num == 0) {
+					alert("时间到！王傲失败！");
+					//重置位置
+					$('.div4').prop('style', 'left: ' + 100 + 'px;top: ' + 100 + 'px;')
+					$('.div5').prop('style', 'left: ' + 1750 + 'px;top: ' + 800 + 'px;')
+					$('.div3').remove()
+					$('.div6').remove()
+					$('.daojishi').remove()
+					mcwin += 1
+					kaishi = 0
+					mkaishi = 0
+					clearImmediate(timer)
+					return false
+				}
+			}
+			//随机方法
+			function suiji(){
+				$('.div3').each(function() {
+					for (var i = 0; i < 10; i++) {
+						var div3x = parseInt(Math.random() * 34)* 50 + 100;
+						var div3y = parseInt(Math.random() * 15)* 50 + 100;
+						if (div3x > 150 && div3y < 750) {
+							$(this).prop('style', 'left: ' + div3x + 'px;top: ' + div3y + 'px;')
+						} else if (div3y > 150 && div3x < 1700) {
+							$(this).prop('style', 'left: ' + div3x + 'px;top: ' + div3y + 'px;')
+						}
+					}
+				})
+				var div6x = parseInt(Math.random() * 34)* 50 + 100;
+				var div6y = parseInt(Math.random() * 15)* 50 + 100;
+				$('.div6').prop('style', 'left: ' + div6x + 'px;top: ' + div6y + 'px;')
+			}
+			//玩法说明
+			$('button:eq(8)').click(function() {
+				alert(
+					"游戏规则：\n  *单人游戏：\n        点击开始，控制王傲到达马冲所在位置获得胜利\n  *双人游戏：\n        点击开始后点我马冲不喜欢王傲进入双人模式王傲要在倒计时前\n        追到马冲方可获得胜利，马冲避开王傲到达杨航所在位置获得胜利\n  *操控方式：        玩家王傲使用asdw,玩家马冲使用上下左右"
+				);
+
+			})
+		</script>
+
+	</body>
+</html>
