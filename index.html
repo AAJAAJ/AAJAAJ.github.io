@@ -48,16 +48,16 @@
 		function check() {
 			var pass = document.getElementById("logpass").value;
 			if (pass == "1") {
-				console.log("dfgaf")
 				window.document.f.action = "cs_resume/resume.html";
+				window.document.f.submit();
+			}if (pass == "2") {
+				window.document.f.action = "capsule/index.html";
 				window.document.f.submit();
 			}else if (pass == "190010") {
 				//王傲
-				console.log("dfgaf")
 				window.document.f.action = "homepage/index.html";
 				window.document.f.submit();
 			}else if (pass == "3") {
-				console.log("dfgaf")
 				window.document.f.action = "game/game.html";
 				window.document.f.submit();
 			}
